@@ -1,0 +1,46 @@
+name: "Shinylive Deployment"
+on:
+  push:
+    branches:
+      - main
+
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install Python Dependencies
+        run: |
+          python3.10 -m venv pyenv
+          . ./pyenv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Build Shinylive App
+        run: |
+          . ./pyenv/bin/activate
+          shinylive export . ./_site
+      
+      - name: Install rsync
+        run: |
+          sudo apt-get update && sudo apt-get install -y rsync
+      
+      - name: Create .nojekyll
+        run: |
+          echo "" >> _site/.nojekyll
+          
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: _site
