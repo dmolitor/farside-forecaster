@@ -40,8 +40,7 @@ def server(input, output, session):
     def _():
         farside_sel_vals = [
             input.farside1_sel(),
-            input.farside2_sel()#,
-            #input.farside3_sel()
+            input.farside2_sel()
         ]
         ui.remove_ui(selector="#next_status")
         # Only proceed if one image is selected
@@ -57,7 +56,6 @@ def server(input, output, session):
         else:
             # Update counter
             cartoons.update_counter()
-            print(cartoons.counter)
             # Submit form and update probs (TODO)
             key1 = cartoons.selected[0]
             key2 = cartoons.selected[1]
@@ -70,14 +68,7 @@ def server(input, output, session):
             
             # If counter is big enough exit!!!
             if cartoons.counter >= num_rounds():
-                print("passed limit")
                 fav_path = cartoons.top_cartoon()
-                #outro = gen_output_ui(fav_cartoon)
-                # ui.insert_ui(
-                #     outro,
-                #     selector="#panel_cartoon",
-                #     where="afterEnd"
-                # )
                 ui.update_navs("hidden_tabs", selected="panel_outro")
                 @output
                 @render.image
@@ -87,7 +78,6 @@ def server(input, output, session):
             
             # Re-generate images
             cartoons.draw_rand()
-            #print(cartoons.cartoon_betas)
             ui.update_action_button(
                 id="farside1",
                 label="",
@@ -124,17 +114,5 @@ def server(input, output, session):
         new_sel_value = not sel_value
         ui.update_checkbox(id="farside2_sel", label="", value=new_sel_value)
 
-    # @reactive.Effect
-    # @reactive.event(input.farside3)
-    # def _():
-    #     sel_value = input.farside3_sel()
-    #     new_sel_value = not sel_value
-    #     ui.update_checkbox(id="farside3_sel", label="", value=new_sel_value)
-
 
 app = App(app_ui, server, static_assets=str(cur_dir / "img"))
-
-
-# if __name__ == "__main__":
-#     print(Path(__file__).resolve().parent)
-#     print(Path(__file__).resolve())

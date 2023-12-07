@@ -72,9 +72,8 @@ class Cartoons:
             val = self.cartoon_betas[key]
             ev = val[3]
             evs[key] = ev
-        # Find top two and pit them against each other
+        # Find cartoon with max expected value
         max_ev = np.max(list(evs.values()))
-        print(max_ev)
         max_ev_cartoon = [k for k, v in evs.items() if v == max_ev][0]
         return max_ev_cartoon
     
@@ -90,15 +89,6 @@ cartoons_ui = ui.nav(
     None,
     # Cartoons (as clickable buttons)
     ui.row(
-        # ui.column(4,
-        #     ui.div(
-        #         {"style": "text-align: center;"},
-        #         ui.input_action_button(
-        #             "farside1", "",
-        #             icon=ui.img(src="fs_01.jpeg", height="550px")
-        #         )
-        #     )
-        # ),
         ui.column(2),
         ui.column(4,
             ui.div(
@@ -136,15 +126,7 @@ cartoons_ui = ui.nav(
                 ui.input_checkbox("farside2_sel", "")
             )
         ),
-        ui.column(3),
-        # ui.column(1),
-        # ui.column(2,
-        #     ui.div(
-        #         {"style": "text-align: center;"},
-        #         ui.input_checkbox("farside3_sel", "")
-        #     )
-        # ),
-        # ui.column(1)
+        ui.column(3)
     ),
     # 'Next' button for navigating through the survey
     ui.row(
