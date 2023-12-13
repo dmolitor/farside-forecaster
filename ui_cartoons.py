@@ -7,11 +7,9 @@ from shiny import ui
 # Simple class to handle updated probabilities and random cartoon assignment
 class Cartoons:
     def __init__(self, img_dir):
-        cartoon_categories = ["alien", "cow", "hunting", "neanderthal", "science"]
         cartoon_fps = [
-            os.path.join(k, file) for k 
-            in cartoon_categories for file
-            in os.listdir(str(img_dir / k))
+            file for file
+            in os.listdir(str(img_dir))
             if file != ".DS_Store"
         ]
         self.cartoon_betas = {k: [0, 0, 0.5, 0.5] for k in cartoon_fps}
