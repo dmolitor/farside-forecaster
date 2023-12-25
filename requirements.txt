@@ -1,5 +1,5 @@
 numpy
 requests
-shiny
-shinylive
+shiny==0.6.0
+shinylive==0.1.2
 shinyswatch
